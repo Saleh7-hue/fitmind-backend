@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: fitmind-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fitmind-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+
+databases:
+  - name: fitmind-db
+    databaseName: fitmind
+    user: fitmind_user
+    plan: free
